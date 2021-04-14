@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: a # b, c
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:17001/eureka/,http://localhost:17002/eureka/,http://localhost:17003/eureka/

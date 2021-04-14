@@ -1,0 +1,12 @@
+server:
+  port: 8001
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://localhost:17001/eureka/,http://localhost:17002/eureka/,http://localhost:17003/eureka/
+spring:
+  application:
+    name: echo-service
