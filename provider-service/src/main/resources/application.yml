@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: provider-service
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?characterEncoding=utf-8&serverTimezone=GMT%2B8
+    username: ${DB_USER}
+    password: ${DB_PASS}
+  jackson:
+    default-property-inclusion: non_null
+
+eureka:
+  instance:
+    appname: ${spring.application.name}
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    leaseRenewalIntervalInSeconds: 10
+    leaseExpirationDurationInSeconds: 30
+  client:
+    service-url:
+      defaultZone: http://eurekaa:${EUREKAA_PORT:17001}/eureka/,http://eurekab:${EUREKAB_PORT:17002}/eureka/,http://eurekac:${EUREKAC_PORT:17003}/eureka/
+
+logging:
+  level:
+    root: ERROR
+---
+spring.config.activate.on-profile: a
+server.port: ${PROVIDERA_PORT:18001}
+---
+spring.config.activate.on-profile: b
+server.port: ${PROVIDERB_PORT:18002}
+---
+spring.config.activate.on-profile: c
+server.port: ${PROVIDERC_PORT:18003}
