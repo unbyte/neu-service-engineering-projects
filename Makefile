@@ -1,18 +1,20 @@
 .PHONY: eureka eureka-% provider provider-% consumer all
 
+EUREKAS ?= eurekaa:17001,eurekab:17002,eurekac:17003
+
+PROVIDERS ?= :18001,:18002,:18003
+
+CONSUMERS ?= :19001
+
 default: all
 
-eureka-%:
-	gradle :eureka-server:bootRun --args='--spring.profiles.active=$(*)' --parallel -q
+eureka:
+	node scripts/booter.js eureka-server $(EUREKAS)
 
-provider-%:
-	gradle :provider-service:bootRun --args='--spring.profiles.active=$(*)' --parallel -q
-
-eureka: eureka-a eureka-b eureka-c
-
-provider: provider-a provider-b provider-c
+provider:
+	node scripts/booter.js provider-service $(PROVIDERS) $(EUREKAS)
 
 consumer:
-	gradle :consumer-service:bootRun --parallel -q
+	node scripts/booter.js consumer-service $(CONSUMERS) $(EUREKAS)
 
 all: eureka provider consumer

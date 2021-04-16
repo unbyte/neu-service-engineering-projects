@@ -2,23 +2,16 @@ spring:
   application:
     name: eureka-server
 
+server:
+  port: ${EUREKA_PORT:17001}
+
 eureka:
   instance:
     appname: ${spring.application.name}
-    hostname: eureka${spring.profiles.active}
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-  client:
-    service-url:
-      defaultZone: http://eurekaa:${EUREKAA_PORT:17001}/eureka/,http://eurekab:${EUREKAB_PORT:17002}/eureka/,http://eurekac:${EUREKAC_PORT:17003}/eureka/
+    hostname: ${EUREKA_HOST:eureka}
   server:
     enable-self-preservation: false
-
----
-spring.config.activate.on-profile: a
-server.port: ${EUREKAA_PORT:17001}
----
-spring.config.activate.on-profile: b
-server.port: ${EUREKAB_PORT:17002}
----
-spring.config.activate.on-profile: c
-server.port: ${EUREKAC_PORT:17003}
+  client:
+    service-url:
+      defaultZone: http://localhost:${EUREKA_PORT:17001}/eureka/

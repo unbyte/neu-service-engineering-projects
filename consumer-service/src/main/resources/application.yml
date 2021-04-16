@@ -16,7 +16,7 @@ eureka:
     leaseExpirationDurationInSeconds: 30
   client:
     service-url:
-      defaultZone: http://eurekaa:${EUREKAA_PORT:17001}/eureka/,http://eurekab:${EUREKAB_PORT:17002}/eureka/,http://eurekac:${EUREKAC_PORT:17003}/eureka/
+      defaultZone: http://localhost:${EUREKA_PORT:17001}/eureka/
 
 logging:
   level:
