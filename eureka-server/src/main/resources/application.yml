@@ -9,9 +9,9 @@ eureka:
   instance:
     appname: ${spring.application.name}
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-    hostname: ${EUREKA_HOST:eureka}
+    hostname: ${EUREKA_HOST:localhost}
   server:
     enable-self-preservation: false
   client:
     service-url:
-      defaultZone: http://localhost:${EUREKA_PORT:17001}/eureka/
+      defaultZone: http://${EUREKA_HOST:localhost}:${EUREKA_PORT:17001}/eureka/
