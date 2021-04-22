@@ -16,4 +16,7 @@ class CountryConsumerController(
         @QueryParam("region") region: String?,
         @QueryParam("continent") continent: String?,
     ) = countryService.query(code, name, region, continent)
+
+    @GetMapping("/api/breakdown")
+    fun breakdown() = countryService.breakdown()
 }
