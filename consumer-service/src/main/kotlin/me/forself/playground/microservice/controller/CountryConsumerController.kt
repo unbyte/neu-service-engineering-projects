@@ -1,19 +1,19 @@
 package me.forself.playground.microservice.controller
 
+import me.forself.playground.microservice.service.CountryService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.client.RestTemplate
-import org.springframework.web.client.getForObject
-import javax.servlet.http.HttpServletRequest
+import javax.ws.rs.QueryParam
 
 @RestController
 class CountryConsumerController(
-    private val restTemplate: RestTemplate,
+    private val countryService: CountryService
 ) {
     @GetMapping("/api/countries")
     fun query(
-        request: HttpServletRequest,
-    ) = restTemplate.getForObject<Any>(
-        "http://provider-service/countries?" + request.queryString
-    )
+        @QueryParam("code") code: String?,
+        @QueryParam("name") name: String?,
+        @QueryParam("region") region: String?,
+        @QueryParam("continent") continent: String?,
+    ) = countryService.query(code, name, region, continent)
 }
