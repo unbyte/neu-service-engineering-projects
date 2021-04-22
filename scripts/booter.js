@@ -28,10 +28,10 @@ function start(moduleName, serverList, eurekaList) {
             ], {
                 env
             })
-        c.stderr.on('data', data => console.log(`[${moduleName}] error: `, data.toString()))
+        c.stderr.on('data', data => console.log(`[${moduleName}][${s}] `, data.toString()))
         c.stdout.on('data', data => {
             const msg = data.toString()
-            if (msg.includes('Exception')) console.log(`[${moduleName}] error: `, msg.substr(0, 200))
+            if (msg.includes('Exception')) console.log(`[${moduleName}][${s}] `, msg)
         })
     })
 }

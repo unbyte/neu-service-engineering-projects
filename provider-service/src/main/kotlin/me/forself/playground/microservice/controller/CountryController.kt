@@ -2,6 +2,7 @@ package me.forself.playground.microservice.controller
 
 import me.forself.playground.microservice.model.Country
 import me.forself.playground.microservice.service.CountryService
+import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreakerFactory
 import org.springframework.cloud.client.discovery.DiscoveryClient
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
@@ -10,9 +11,9 @@ import javax.ws.rs.QueryParam
 @RestController
 class CountryController(
     private val countryService: CountryService,
+    private val circuitBreaker: Resilience4JCircuitBreakerFactory,
     val client: DiscoveryClient
 ) {
-
     @GetMapping("/countries")
     fun query(
         @QueryParam("code") code: String?,
@@ -25,6 +26,13 @@ class CountryController(
         continent != null -> countryService.findByContinent(continent)
         region != null -> countryService.findByRegion(region)
         else -> countryService.findAll()
+    }
+
+    @GetMapping("/breakdown")
+    fun breakdown(): String = circuitBreaker.create("breakdown").run({
+        throw Exception("breakdown!")
+    }) {
+        "breakdown"
     }
 
     @GetMapping("/discovery")
