@@ -1,19 +1,17 @@
-# For Homework 1
-
 ## Run
 0. make sure that Java, Gradle, Node and Make have been installed.
 
 1. run `scripts/setup-hosts.ps1` to set hosts on Windows or add hosts manually on *nix
    
 2. export env variables including at least `DB_HOST` `DB_PORT` `DB_NAME` `DB_USER` `DB_PASS`
-    
+
     - can use `env.local` file containing `key=value` line by line instead 
-   
+
 3. run `make -j3`
 
 ## Scale Instances
 
-edit `EUREKAS` `PROVIDERS` `CONSUMERS` in `Makefile`
+edit `EUREKAS` `PROVIDERS` `CONSUMERS` in `Makefile` or pass above kv pair as arguments to `make`
 
 format: `[host]:port[,...]`
 
