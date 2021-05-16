@@ -17,8 +17,8 @@ interface CountryService {
         @RequestParam("continent") continent: String?,
     ): Any
 
-    @GetMapping("/breakdown")
-    fun breakdown(): Any
+    @GetMapping("/crazy")
+    fun crazy(): Any
 }
 
 @Component
@@ -26,5 +26,5 @@ class FallbackCountryService : CountryService {
     override fun query(code: String?, name: String?, region: String?, continent: String?) =
         "fallback for query [code=${code} name=${name} region=${region} continent=${continent}]"
 
-    override fun breakdown() = "breakdown!!!"
+    override fun crazy() = "I'm trying to be normal."
 }

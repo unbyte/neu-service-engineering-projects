@@ -1,6 +1,7 @@
 package me.forself.playground.microservice.config
 
 import io.github.resilience4j.circuitbreaker.CircuitBreaker
+import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry
 import io.github.resilience4j.feign.FeignDecorators
 import io.github.resilience4j.feign.Resilience4jFeign
 import me.forself.playground.microservice.service.FallbackCountryService
@@ -23,7 +24,7 @@ class BeansConfig {
     fun feignResilience4jBuilder() =
         Resilience4jFeign.builder(
             FeignDecorators.builder()
-                .withCircuitBreaker(CircuitBreaker.ofDefaults(""))
+                .withCircuitBreaker(CircuitBreakerRegistry.ofDefaults().circuitBreaker("crazy"))
                 .withFallback(FallbackCountryService())
                 .build()
         )

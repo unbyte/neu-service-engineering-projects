@@ -1,4 +1,4 @@
-.PHONY: eureka eureka-% provider provider-% consumer all
+.PHONY: eureka eureka-% provider provider-% consumer all monitor-setup monitor
 
 EUREKAS ?= eurekaa:17001,eurekab:17002,eurekac:17003
 
@@ -18,3 +18,9 @@ consumer:
 	node scripts/booter.js consumer-service $(CONSUMERS) $(EUREKAS)
 
 all: eureka provider consumer
+
+monitor-setup:
+	docker-compose -f ./scripts/docker-compose.monitor.yml up -d
+
+monitor:
+	docker-compose -f ./scripts/docker-compose.monitor.yml start -d

@@ -26,10 +26,10 @@ class CountryController(
         else -> countryService.findAll()
     }
 
-    @GetMapping("/breakdown")
-    fun breakdown(): String {
-        throw Exception("breakdown!")
-    }
+    @GetMapping("/crazy")
+    fun breakdown(): String =
+        if ((Math.random() * 100).toInt() % 2 == 0) "I'm normal."
+        else throw Exception("I'm crazy!")
 
     @GetMapping("/discovery")
     fun discovery() = client
