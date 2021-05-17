@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: gateway
+  jackson:
+    default-property-inclusion: non_null
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+      routes:
+        - id: provider-service
+          uri: lb://provider-service
+          predicates:
+            - Path=/provider/api/**
+          filters:
+            - RewritePath=/provider/api(?<path>/?.*), $\{path}
+            - name: CircuitBreaker
+              args:
+                name: simpleCircuitBreaker
+                fallbackUri: forward:/fallback/ok/
+            - name: Auth
+              args:
+                name: Auth
+        - id: consumer-service
+          uri: lb://consumer-service
+          predicates:
+            - Path=/consumer/api/**
+          filters:
+            - RewritePath=/consumer(?<path>/?.*), $\{path}
+            - name: CircuitBreaker
+              args:
+                name: simpleCircuitBreaker
+                fallbackUri: forward:/fallback/ok/
+    loadbalancer:
+      ribbon:
+        enabled: false
+
+server:
+  port: ${GATEWAY_PORT:20001}
+
+eureka:
+  instance:
+    appname: ${spring.application.name}
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    leaseRenewalIntervalInSeconds: 10
+    leaseExpirationDurationInSeconds: 30
+  client:
+    service-url:
+      defaultZone: http://localhost:${EUREKA_PORT:17001}/eureka/

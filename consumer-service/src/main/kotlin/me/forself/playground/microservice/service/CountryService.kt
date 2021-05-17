@@ -18,7 +18,7 @@ interface CountryService {
     ): Any
 
     @GetMapping("/crazy")
-    fun crazy(): Any
+    fun crazy(): String
 }
 
 @Component

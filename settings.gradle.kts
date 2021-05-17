@@ -2,7 +2,8 @@ rootProject.name = "microservice"
 include(
     "eureka-server",
     "provider-service",
-    "consumer-service"
+    "consumer-service",
+    "gateway"
 )
 
 pluginManagement {
