@@ -1,0 +1,7 @@
+spring:
+  config:
+    import: base.yml
+
+mybatis:
+  configuration:
+    cache-enabled: false

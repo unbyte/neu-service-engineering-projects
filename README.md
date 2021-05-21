@@ -7,15 +7,12 @@
 
     - can use `env.local` file containing `key=value` line by line instead 
 
-3. run `make -j3`
+3. run `make -j5`
 
 4. [OPTIONAL] run `make monitor` (if it's the first time, run `make monitor-setup` first) 
    to start up prometheus and grafana. It requires docker and docker-compose. The dashboard
    config for grafana is at `./scripts/monitors/grafana.dashboard.json`.
    
-5. [OPTIONAL] run `make gateway` to start gateway. `/provider/api` to providers and `/consumer/api` 
-   to consumers. The apis of providers needs a `token` with any value in query params.
-
 ## Scale Instances
 
 edit `EUREKAS` `PROVIDERS` `CONSUMERS` in `Makefile` or pass above kv pair as arguments to `make`
@@ -32,6 +29,10 @@ format: `[host]:port[,...]`
 
 - `CONSUMER_PORT`
 
+- `CONFIG_PORT` `CONFIG_PATH`
+
+- `GATEWAY_PORT`
+
 ## Example env.local
 
 ```text
@@ -40,4 +41,5 @@ DB_PORT=3306
 DB_NAME=dev
 DB_USER=dev
 DB_PASS=password
+CONFIG_PATH=file:///C:/config
 ```

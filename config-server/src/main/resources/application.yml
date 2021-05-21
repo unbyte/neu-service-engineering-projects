@@ -1,8 +1,6 @@
 spring:
   application:
-    name: gateway
-  jackson:
-    default-property-inclusion: non_null
+    name: config-server
   cloud:
     config:
       server:
@@ -13,12 +11,6 @@ server:
   port: ${CONFIG_PORT:21001}
 
 eureka:
-  instance:
-    appname: ${spring.application.name}
-    prefer-ip-address: true
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-    leaseRenewalIntervalInSeconds: 10
-    leaseExpirationDurationInSeconds: 30
   client:
     service-url:
       defaultZone: http://localhost:${EUREKA_PORT:17001}/eureka/

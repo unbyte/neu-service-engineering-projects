@@ -1,18 +1,21 @@
 const {spawn} = require('child_process')
 const {readFileSync, existsSync} = require('fs')
 
-const [moduleName, servers, eurekas] = process.argv.slice(2)
+const [moduleName, servers, eurekas, config] = process.argv.slice(2)
 
-start(moduleName, servers.split(','), (eurekas || servers).split(','))
+start(moduleName, servers.split(','), eurekas.split(','), config)
 
-function start(moduleName, serverList, eurekaList) {
+function start(moduleName, serverList, eurekaList, config) {
     const env = {
         ...process.env,
-        ...parseEnv('env.local')
+        ...parseEnv('env.local'),
     }
 
     const zones = eurekaList.map(s => `http://${s}/eureka/`).join(',')
     console.log(`[${moduleName}] setting zones to ${zones}`)
+
+    const [_, configPort] = config.split(':')
+    console.log(`[${moduleName}] using config server on :${configPort}`)
     serverList.forEach(s => {
         const [host, port] = s.split(':')
         console.log(`[${moduleName}] booting ${s}`)
@@ -22,7 +25,10 @@ function start(moduleName, serverList, eurekaList) {
                 `:${moduleName}:bootRun`,
                 '--args',
                 `'--server.port=${port}' '--eureka.client.service-url.defaultZone=${zones}'`
-                + (host ? ` '--eureka.instance.hostname=${host}'` : ''),
+                + (host ? ` '--eureka.instance.hostname=${host}'` : '')
+                + (moduleName !== 'config-server'
+                    ? ` '--spring.config.import=configserver:http://localhost:${configPort}'`
+                    : ` '--spring.profiles.active=native'`),
                 '--parallel',
                 '-q'
             ], {

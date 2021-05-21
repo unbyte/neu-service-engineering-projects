@@ -8,45 +8,12 @@ server:
   port: ${CONSUMER_PORT:19001}
 
 eureka:
-  instance:
-    appname: ${spring.application.name}
-    prefer-ip-address: true
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-    leaseRenewalIntervalInSeconds: 10
-    leaseExpirationDurationInSeconds: 30
   client:
     service-url:
       defaultZone: http://localhost:${EUREKA_PORT:17001}/eureka/
 
-logging:
-  level:
-    root: ERROR
-
-management:
-  endpoints.web.exposure.include: '*'
-  endpoint.health:
-    show-details: always
-  health:
-    diskspace.enabled: false
-    circuitbreakers.enabled: true
-    ratelimiters.enabled: false
-  metrics:
-    tags.application: consumer
-    distribution:
-      percentiles-histogram:
-        http.server.requests: true
-        resilience4j.circuitbreaker.calls: true
-
 resilience4j:
   circuitbreaker:
-    configs:
-      default:
-        slidingWindowSize: 10
-        slidingWindowType: COUNT_BASED
-        minimumNumberOfCalls: 5
-        permittedNumberOfCallsInHalfOpenState: 3
-        automaticTransitionFromOpenToHalfOpenEnabled: true
-        waitDurationInOpenState: 10s
     instances:
       crazy:
         baseConfig: default

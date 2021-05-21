@@ -8,5 +8,5 @@ dependencies {
     implementation("io.micrometer:micrometer-registry-prometheus:latest.release")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-aop")
-
+    implementation("org.springframework.cloud:spring-cloud-config-client")
 }

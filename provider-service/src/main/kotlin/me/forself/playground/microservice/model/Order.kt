@@ -75,7 +75,9 @@ object OrderStatus {
 
 }
 
-class StatusSerializer(t: Class<Int>) : StdSerializer<Int>(t) {
+class StatusSerializer(t: Class<Int>?) : StdSerializer<Int>(t) {
+    constructor() : this(null)
+
     override fun serialize(value: Int, gen: JsonGenerator, pro: SerializerProvider) {
         gen.writeString(OrderStatus.toLiteral(value))
     }

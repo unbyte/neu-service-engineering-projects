@@ -6,26 +6,14 @@ spring:
     url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?characterEncoding=utf-8&serverTimezone=GMT%2B8
     username: ${DB_USER}
     password: ${DB_PASS}
-  jackson:
-    default-property-inclusion: non_null
 
 server:
   port: ${PROVIDER_PORT:18001}
 
 eureka:
-  instance:
-    appname: ${spring.application.name}
-    prefer-ip-address: true
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-    leaseRenewalIntervalInSeconds: 10
-    leaseExpirationDurationInSeconds: 30
   client:
     service-url:
       defaultZone: http://localhost:${EUREKA_PORT:17001}/eureka/
-
-logging:
-  level:
-    root: ERROR
 
 mybatis:
   configuration:

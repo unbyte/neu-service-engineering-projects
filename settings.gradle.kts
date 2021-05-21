@@ -3,7 +3,8 @@ include(
     "eureka-server",
     "provider-service",
     "consumer-service",
-    "gateway"
+    "gateway",
+    "config-server"
 )
 
 pluginManagement {

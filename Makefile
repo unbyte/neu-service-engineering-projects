@@ -1,4 +1,4 @@
-.PHONY: eureka eureka-% provider provider-% consumer all monitor-setup monitor gateway
+.PHONY: eureka provider consumer all monitor-setup monitor gateway config
 
 EUREKAS ?= eurekaa:17001,eurekab:17002,eurekac:17003
 
@@ -8,21 +8,26 @@ CONSUMERS ?= :19001
 
 GATEWAYS ?= :20001
 
+CONFIG ?= :21001
+
 default: all
 
 eureka:
-	node scripts/booter.js eureka-server $(EUREKAS)
+	node scripts/booter.js eureka-server $(EUREKAS) $(EUREKAS) $(CONFIG)
 
 provider:
-	node scripts/booter.js provider-service $(PROVIDERS) $(EUREKAS)
+	node scripts/booter.js provider-service $(PROVIDERS) $(EUREKAS) $(CONFIG)
 
 consumer:
-	node scripts/booter.js consumer-service $(CONSUMERS) $(EUREKAS)
+	node scripts/booter.js consumer-service $(CONSUMERS) $(EUREKAS) $(CONFIG)
 
 gateway:
-	node scripts/booter.js gateway $(GATEWAYS) $(EUREKAS)
+	node scripts/booter.js gateway $(GATEWAYS) $(EUREKAS) $(CONFIG)
 
-all: eureka provider consumer
+config:
+	node scripts/booter.js config-server $(CONFIG) $(EUREKAS) $(CONFIG)
+
+all: eureka provider consumer gateway config
 
 monitor-setup:
 	docker-compose -f ./scripts/docker-compose.monitor.yml up -d

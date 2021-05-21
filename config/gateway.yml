@@ -1,0 +1,38 @@
+spring:
+  config:
+    import: base.yml
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+      routes:
+        #        - id: provider-service
+        #          uri: lb://provider-service
+        #          predicates:
+        #            - Path=/provider/api/**
+        #          filters:
+        #            - RewritePath=/provider/api(?<path>/?.*), $\{path}
+        #            - name: CircuitBreaker
+        #              args:
+        #                name: simpleCircuitBreaker
+        #                fallbackUri: forward:/fallback/ok/
+        #            - name: Auth
+        #              args:
+        #                name: Auth
+        - id: consumer-service
+          uri: lb://consumer-service
+          predicates:
+            - Path=/api/**
+            - Method=GET,POST
+          filters:
+            #            - RewritePath=/consumer(?<path>/?.*), $\{path}
+            - name: Auth
+              args:
+                name: Auth
+            - name: CircuitBreaker
+              args:
+                name: simpleCircuitBreaker
+                fallbackUri: forward:/fallback/ok/
