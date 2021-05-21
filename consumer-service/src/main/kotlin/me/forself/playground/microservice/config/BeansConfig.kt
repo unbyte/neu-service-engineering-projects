@@ -1,10 +1,9 @@
 package me.forself.playground.microservice.config
 
-import io.github.resilience4j.circuitbreaker.CircuitBreaker
 import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry
 import io.github.resilience4j.feign.FeignDecorators
 import io.github.resilience4j.feign.Resilience4jFeign
-import me.forself.playground.microservice.service.FallbackCountryService
+import me.forself.playground.microservice.service.FallbackOrderService
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.cloud.client.loadbalancer.LoadBalanced
 import org.springframework.context.annotation.Bean
@@ -24,8 +23,8 @@ class BeansConfig {
     fun feignResilience4jBuilder() =
         Resilience4jFeign.builder(
             FeignDecorators.builder()
-                .withCircuitBreaker(CircuitBreakerRegistry.ofDefaults().circuitBreaker("crazy"))
-                .withFallback(FallbackCountryService())
+                .withCircuitBreaker(CircuitBreakerRegistry.ofDefaults().circuitBreaker("orders"))
+                .withFallback(FallbackOrderService())
                 .build()
         )
 }
